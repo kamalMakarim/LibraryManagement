@@ -8,12 +8,23 @@ import java.nio.file.*;
 import java.util.*;
 import javax.swing.JOptionPane;
 
+import ui.AdminFrame;
+import ui.MemberFrame;
+
 public class UserController {
     private static final String MEMBERS_FILE = "data/members.json";
     private static final String ADMINS_FILE = "data/admins.json";
+    private static UserController instance;
 
-    public UserController() {
+    private UserController() {
         createUsersFileIfNotExists();
+    }
+
+    public static UserController getInstance() {
+        if (instance == null) {
+            instance = new UserController();
+        }
+        return instance;
     }
 
     public void login(String username, String password) {
@@ -23,13 +34,15 @@ public class UserController {
         Optional<Admin> admin = admins.stream().filter(a -> a.getUsername().equals(username)).findFirst();
         if (member.isPresent()) {
             if (member.get().checkPassword(password)) {
-                JOptionPane.showMessageDialog(null, "Login successful!");
+                MemberFrame memberFrame = new MemberFrame(member.get());
+                memberFrame.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Incorrect password!");
             }
         } else if (admin.isPresent()) {
             if (admin.get().checkPassword(password)) {
-                JOptionPane.showMessageDialog(null, "Login successful!");
+                AdminFrame adminFrame = new AdminFrame(admin.get());
+                adminFrame.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Incorrect password!");
             }
@@ -81,6 +94,7 @@ public class UserController {
         Admin newAdmin = new Admin(username, email, password);
         admins.add(newAdmin);
         writeAdminsToFile(admins);
+        JOptionPane.showMessageDialog(null, "Admin registered successfully!");
     }
 
     // Similar to writeUsersToFile, but for Members

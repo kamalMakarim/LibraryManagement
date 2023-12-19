@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Kamal\u0027s book",
+    "author": "Kamal",
+    "status": "BORROWED",
+    "currentMember": {
+      "username": "Haickal",
+      "email": "haickal@gmail.com",
+      "passwordHash": "c8add4599dcd807a9ba6b4b6f940c1c7"
+    },
+    "borrowDate": "Dec 19, 2023, 9:04:48 PM"
+  },
+  {
+    "title": "Satrio\u0027s book",
+    "author": "Satrio",
+    "status": "BORROWED"
+  }
+]

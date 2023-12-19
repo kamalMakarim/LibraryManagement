@@ -1,6 +1,4 @@
 package model;
-import model.Admin;
-import model.Member;
 
 public class UserFactory {
     public User createUser(String type, String username, String email, String password) {
@@ -9,6 +7,6 @@ public class UserFactory {
         } else if (type.equals("Member")) {
             return new Member(username, email, password);
         }
-        return new Member(username, email, password);
+        return null;
     }
 }

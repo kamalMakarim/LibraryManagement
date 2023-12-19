@@ -14,7 +14,7 @@ public class LoginFrame extends JFrame {
     private UserController controller;
 
     public LoginFrame() {
-        this.controller = new UserController();
+        this.controller = UserController.getInstance(); // Assuming UserController is a singleton
         createUI();
     }
 

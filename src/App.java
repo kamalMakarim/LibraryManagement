@@ -5,4 +5,10 @@ public class App {
         LoginFrame loginFrame = new LoginFrame();
         loginFrame.setVisible(true);
     }
+    /*
+     buat test admin
+     username: Admin
+     password: Admin1234
+     email : admin@gmail.com
+     */
 }
