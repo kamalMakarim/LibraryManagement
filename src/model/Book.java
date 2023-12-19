@@ -7,7 +7,7 @@ public class Book {
     private String author;
     private BookStatus status;
     private Member currentMember;
-    private Timestamp borrowDate;
+    public Timestamp borrowDate;
 
 
     // Constructor
@@ -62,6 +62,7 @@ public class Book {
     public boolean returnBook() {
         if (status == BookStatus.BORROWED) {
             setStatus(BookStatus.IN_LIBRARY);
+            setCurrentMember(null);
             System.out.println("Book returned successfully.");
             return true;
         } else {

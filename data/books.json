@@ -1,18 +1,84 @@
 [
   {
-    "title": "Kamal\u0027s book",
-    "author": "Kamal",
-    "status": "BORROWED",
-    "currentMember": {
-      "username": "Haickal",
-      "email": "haickal@gmail.com",
-      "passwordHash": "c8add4599dcd807a9ba6b4b6f940c1c7"
-    },
-    "borrowDate": "Dec 19, 2023, 9:04:48 PM"
+    "title": "Harry Potter",
+    "author": "J.K. Rowling",
+    "status": "IN_LIBRARY"
   },
   {
-    "title": "Satrio\u0027s book",
-    "author": "Satrio",
-    "status": "BORROWED"
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "status": "IN_LIBRARY"
+  },
+  {
+    "title": "1984",
+    "author": "George Orwell",
+    "status": "IN_LIBRARY"
+  },
+  {
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "status": "IN_LIBRARY",
+    "borrowDate": "Dec 19, 2023, 10:39:52 PM"
+  },
+  {
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "status": "IN_LIBRARY"
+  },
+  {
+    "title": "The Catcher in the Rye",
+    "author": "J.D. Salinger",
+    "status": "IN_LIBRARY"
+  },
+  {
+    "title": "The Lord of the Rings",
+    "author": "J.R.R. Tolkien",
+    "status": "IN_LIBRARY"
+  },
+  {
+    "title": "The Hobbit",
+    "author": "J.R.R. Tolkien",
+    "status": "IN_LIBRARY"
+  },
+  {
+    "title": "Brave New World",
+    "author": "Aldous Huxley",
+    "status": "IN_LIBRARY"
+  },
+  {
+    "title": "The Chronicles of Narnia",
+    "author": "C.S. Lewis",
+    "status": "IN_LIBRARY"
+  },
+  {
+    "title": "The Shining",
+    "author": "Stephen King",
+    "status": "IN_LIBRARY"
+  },
+  {
+    "title": "Moby-Dick",
+    "author": "Herman Melville",
+    "status": "IN_LIBRARY"
+  },
+  {
+    "title": "Jane Eyre",
+    "author": "Charlotte Brontë",
+    "status": "IN_LIBRARY"
+  },
+  {
+    "title": "The Odyssey",
+    "author": "Homer",
+    "status": "IN_LIBRARY"
+  },
+  {
+    "title": "Wuthering Heights",
+    "author": "Emily Brontë",
+    "status": "IN_LIBRARY"
+  },
+  {
+    "title": "The Grapes of Wrath",
+    "author": "John Steinbeck",
+    "status": "IN_LIBRARY",
+    "borrowDate": "Dec 19, 2023, 11:04:36 PM"
   }
 ]

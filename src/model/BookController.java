@@ -13,7 +13,7 @@ public class BookController {
     private static BookController instance;
     private List<Book> books;
     private static final String BOOKS_FILE = "data/books.json";
-    private Timestamp maxDuration = new Timestamp(7 * 24 * 60 * 60 * 1000); //a week in miliseconds
+    public Timestamp maxDuration = new Timestamp(7 * 24 * 60 * 60 * 1000); //a week in miliseconds
 
     private BookController() {
         this.books = new ArrayList<>();
@@ -33,15 +33,6 @@ public class BookController {
         saveBooksToFile();
     }
 
-    public ArrayList<Book> passDueArrayList() {
-        ArrayList<Book> results = new ArrayList<>();
-        for (Book book : books) {
-            if (book.getStatus() == BookStatus.BORROWED && book.passDueDate(maxDuration)) {
-                results.add(book);
-            }
-        }
-        return results;
-    }
 
     public void removeBook(String title) {
         Optional<Book> book = books.stream().filter(b -> b.getTitle().equals(title)).findFirst();
@@ -133,5 +124,15 @@ public class BookController {
 
     public ArrayList<Book> getAllBooks() {
         return new ArrayList<>(books);
+    }
+
+    public ArrayList<Book> getBorrowedBooks(Member member) {
+        ArrayList<Book> results = new ArrayList<>();
+        for (Book book : books) {
+            if (book.getCurrentMember()!= null && book.getCurrentMember().getEmail().equals(member.getEmail())) {
+                results.add(book);
+            }
+        }
+        return results;
     }
 }

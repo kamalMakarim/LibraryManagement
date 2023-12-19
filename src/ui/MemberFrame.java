@@ -2,6 +2,7 @@ package ui;
 
 import model.Book;
 import model.BookController;
+import model.BookStatus;
 import model.Member;
 
 import javax.swing.*;
@@ -16,15 +17,18 @@ public class MemberFrame extends JFrame {
 
     // UI Components
     private JTextField searchField;
-    private JButton searchButton, checkOutButton, returnButton;
+    private JButton searchButton, checkOutButton, returnButton, showBorrowButtonedButton;
     private JList<String> bookList;
     private DefaultListModel<String> bookListModel;
     private ArrayList<Book> shownBooks;
+    private ArrayList<Book> myBorrowedBooks;
+    private boolean showBorrowedBooks;
 
     public MemberFrame(Member member) {
         this.member = member;
+        System.out.println(member.getUsername() + " has logged in.");
+        showBorrowedBooks = false;
         this.bookController = BookController.getInstance(); // Assuming BookController is a singleton
-    
         createUI();
     }
     
@@ -51,14 +55,17 @@ public class MemberFrame extends JFrame {
         JPanel buttonPanel = new JPanel();
         checkOutButton = new JButton("Check Out");
         returnButton = new JButton("Return");
+        showBorrowButtonedButton = new JButton("Show Borrowed Books");
+        buttonPanel.add(showBorrowButtonedButton);
         buttonPanel.add(checkOutButton);
         buttonPanel.add(returnButton);
+        returnButton.setVisible(showBorrowedBooks);
 
         // Add panels to frame
         add(searchPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
-        shownBooks = bookController.getAllBooks() ;
+        shownBooks = bookController.getAllBooks();
         refreshShownBooks(shownBooks);
 
         // Action Listeners
@@ -73,6 +80,8 @@ public class MemberFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkOutBook();
+                shownBooks = bookController.getAllBooks();
+                refreshShownBooks(shownBooks);
             }
         });
 
@@ -80,6 +89,23 @@ public class MemberFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 returnBook();
+                shownBooks = bookController.getBorrowedBooks(member);
+            }
+        });
+        showBorrowButtonedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBorrowedBooks = !showBorrowedBooks;
+                returnButton.setVisible(showBorrowedBooks);
+                checkOutButton.setVisible(!showBorrowedBooks);
+                myBorrowedBooks = bookController.getBorrowedBooks(member);
+                if(showBorrowedBooks){
+                    showBorrowButtonedButton.setText("Show All Books");
+                    refreshShownBooks(myBorrowedBooks);
+                }else{
+                    showBorrowButtonedButton.setText("Show Borrowed Books");
+                    refreshShownBooks(bookController.getAllBooks());
+                }
             }
         });
     }
@@ -104,22 +130,37 @@ public class MemberFrame extends JFrame {
     }
 
     private void returnBook() {
-        String selectedBookTitle = bookList.getSelectedValue();
-        if (selectedBookTitle != null) {
-            boolean success = bookController.returnBook(selectedBookTitle);
-            if (success) {
-                JOptionPane.showMessageDialog(this, "Book returned successfully.");
+        String bookInfo = bookList.getSelectedValue();
+        if (bookInfo != null && !bookInfo.isEmpty()) {
+            String selectedBookTitle = bookInfo.split(" --- ")[0];
+            if (myBorrowedBooks.stream().anyMatch(b -> b.getTitle().equals(selectedBookTitle))) {
+                boolean success = bookController.returnBook(selectedBookTitle);
+                if (success) {
+                    JOptionPane.showMessageDialog(this, "Book returned successfully.");
+                    myBorrowedBooks.removeIf(b -> b.getTitle().equals(selectedBookTitle));
+                    refreshShownBooks(myBorrowedBooks);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Failed to return the book.");
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "Failed to return the book.");
+                JOptionPane.showMessageDialog(this, "This book is not borrowed by you.");
             }
         }
     }
 
     private void refreshShownBooks(ArrayList<Book> books) {
-        this.shownBooks = books;
+        if (books == null) {
+            books = new ArrayList<>();  
+        }
+    
+        if (bookListModel == null) {
+            bookListModel = new DefaultListModel<>();
+        }
+    
         bookListModel.clear();
         for (Book book : books) {
-            bookListModel.addElement(book.getTitle() + " --- " + book.getAuthor());
+            bookListModel.addElement(book.getTitle() + " --- " + book.getAuthor() + " [" + book.getStatus() + "]");
         }
     }
+    
 }
